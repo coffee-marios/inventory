@@ -1,5 +1,20 @@
 body {
-    color: red;
+    background-color: gray;
+    margin: 0;
+}
+
+nav {
+    background-color: black;
+    font-size: 2rem;
+    font-style: normal;
+    padding: 5px;
+}
+
+a {
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 12px;
 }
 
 ul {
@@ -11,4 +26,16 @@ ul {
 
 li {
     list-style: none;
+}
+
+.house {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    background-color: aquamarine;
+}
+
+.house-info {
+    font-size: larger;
+
 }
