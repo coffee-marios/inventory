@@ -1,0 +1,14 @@
+body {
+    color: red;
+}
+
+ul {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+
+li {
+    list-style: none;
+}
