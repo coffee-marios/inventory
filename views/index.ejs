@@ -7,26 +7,47 @@
 
 <body>
   <%- include('partials/navbar') %>
-    <div class="house">
-      <div><a href="home">
-          <img src="./pictures/house1.png" alt="house">
-        </a>
-      </div>
-      <div class="house-info">
+    <div>
 
-        <p> Location: Limassol</p>
+      <% properties.forEach((property, index)=> {%>
+        <div class="house">
+          <div><a href="/home/<%= index %>">
+              <img src=<%=property.image %> alt="house">
+            </a>
+          </div>
+          <div class="house-info">
+            <p>Location: <%= property.location %>
+            </p>
+            <p>Price: &#8364; <%= property.price %>
+            </p>
 
-        <p> Price: &#8364; 1.222.434</p>
-        <p>Property type: house</p>
-
-        <p>Description: N/A</p>
-        <p>Status: for sale</p>
+          </div>
+        </div>
 
 
-      </div>
+
+        <% }) %>
+
+          <div class="house">
+            <a href="home">
+              <img src="./pictures/house1.png" alt="house">
+            </a>
+
+            <div class="house-info">
+
+              <p> Location: Limassol</p>
+
+              <p> Price: &#8364; 1.222.434</p>
+              <p>Property type: house</p>
+
+              <p>Description: N/A</p>
+              <p>Status: for sale</p>
 
 
-    </div>
+            </div>
+
+
+          </div>
 </body>
 
 </html>

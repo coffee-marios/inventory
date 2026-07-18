@@ -10,26 +10,50 @@
         <div class="house">
             <div>
                 <a href="/">
-                    <img src="./pictures/house1.png" alt="house">
+                    <img src="<%=hm.image %>" alt="house">
                 </a>
             </div>
             <div class="house-info">
 
-                <p> Location: Limassol</p>
+                <% if (hm.location) {%>
+                    <p>Location: <%= hm.location %>
+                    </p>
+                    <% }%>
 
-                <p>Description: N/A</p>
-                <p> Internal area: 200 m&#178;</p>
-                <p>Total plot area: N/A</p>
-                <p> Price: &#8364; 1.222.434</p>
-                <p>Property type: house</p>
-                <p>Number of floors: 1</p>
-                <p>Number of bedrooms: N/A</p>
-                <p>Number of bathrooms: N/A</p>
-                <p>Total plot area: N/A</p>
-                <p>Year built: N/A</p>
-                <p>Year renovated: N/A</p>
-                <p>Description: N/A</p>
-                <p>Status: for sale</p>
+                        <% if (hm.description) {%>
+                            <p>Description: <%= hm.description %>
+                            </p>
+                            <% }%>
+
+                                <% if (hm.internalArea) {%>
+                                    <p> Internal area: <%= hm.internalArea %> m&#178;</p>
+                                    </p>
+                                    <% }%>
+
+                                        <% if (hm.totalPlotArea) {%>
+                                            <p>Total plot area: <%= hm.totalPlotArea %> m&#178;</p>
+                                            <% }%>
+
+                                                <% if (hm.price) {%>
+                                                    <p>Price: &#8364; <%= hm.price %> m&#178;</p>
+                                                    <% }%>
+
+                                                        <% if (hm.type) {%>
+                                                            <p>Type: <%= hm.type %>
+                                                            </p>
+                                                            <% }%>
+
+                                                                <% if (hm.floors) {%>
+                                                                    <p>Floors: <%= hm.floors %>
+                                                                    </p>
+                                                                    <% }%>
+                                                                        <% if (hm.status) {%>
+                                                                            <p>Status: <%= hm.status %>
+                                                                            </p>
+                                                                            <% }%>
+
+
+
 
 
             </div>
