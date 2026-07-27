@@ -13,8 +13,9 @@ const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 
 const links = [
-  { href: "/", text: "Home" },
+  { href: "", text: "Home" },
   { href: "about", text: "About" },
+  { href: "add", text: "Add" },
 ];
 
 app.use((req, res, next) => {

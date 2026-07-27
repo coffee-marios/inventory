@@ -1,53 +1,49 @@
 <html>
 
 <head>
-  <title>Homepage</title>
+  <title>
+    <%= title %>
+  </title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 
 <body>
   <%- include('partials/navbar') %>
+
+    <div>
+      public | properties | table | marios
+      <br>
+      public | property_images | table | marios
+    </div>
     <div>
 
-      <% properties.forEach((property, index)=> {%>
+      <% properties.forEach((property, index)=> { %>
+
+
         <div class="house">
-          <div><a href="/home/<%= index %>">
-              <img src=<%=property.image %> alt="house">
+          <div>
+            <a href="/home/<%= index+1 %>">
+              <img src="<%= property.image_url %>" alt="<%= property.alt_text %>">
             </a>
           </div>
           <div class="house-info">
-            <p>Location: <%= property.location %>
+            <p>City: <%= property.city %>
             </p>
             <p>Price: &#8364; <%= property.price %>
             </p>
-
           </div>
+
         </div>
-
-
+        <br>
 
         <% }) %>
 
-          <div class="house">
-            <a href="home">
-              <img src="./pictures/house1.png" alt="house">
-            </a>
 
-            <div class="house-info">
-
-              <p> Location: Limassol</p>
-
-              <p> Price: &#8364; 1.222.434</p>
-              <p>Property type: house</p>
-
-              <p>Description: N/A</p>
-              <p>Status: for sale</p>
+          <br>
 
 
-            </div>
 
 
-          </div>
 </body>
 
 </html>

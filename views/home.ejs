@@ -7,48 +7,56 @@
 
 <body>
     <%- include('partials/navbar') %>
+
+        <h1>
+            <%= property.title %>
+        </h1>
         <div class="house">
+
+
             <div>
+
+
                 <a href="/">
-                    <img src="<%=hm.image %>" alt="house">
+                    <img src="<%=property.image_url %>" alt="<%= property.alt_text %>">
                 </a>
             </div>
             <div class="house-info">
 
-                <% if (hm.location) {%>
-                    <p>Location: <%= hm.location %>
+                <% if (property.city) {%>
+                    <p>Location: <%= property.city %>
                     </p>
                     <% }%>
 
-                        <% if (hm.description) {%>
-                            <p>Description: <%= hm.description %>
+                        <% if (property.description) {%>
+                            <p>Description: <%= property.description %>
                             </p>
                             <% }%>
 
-                                <% if (hm.internalArea) {%>
-                                    <p> Internal area: <%= hm.internalArea %> m&#178;</p>
+                                <% if (property.internalArea) {%>
+                                    <p> Internal area: <%= property.internalArea %> m&#178;</p>
                                     </p>
                                     <% }%>
 
-                                        <% if (hm.totalPlotArea) {%>
-                                            <p>Total plot area: <%= hm.totalPlotArea %> m&#178;</p>
+                                        <% if (property.totalPlotArea) {%>
+                                            <p>Total plot area: <%= property.totalPlotArea %> m&#178;</p>
                                             <% }%>
 
-                                                <% if (hm.price) {%>
-                                                    <p>Price: &#8364; <%= hm.price %> m&#178;</p>
+                                                <% if (property.price) {%>
+                                                    <p>Price: &#8364; <%= property.price %> m&#178;</p>
                                                     <% }%>
 
-                                                        <% if (hm.type) {%>
-                                                            <p>Type: <%= hm.type %>
+                                                        <% if (property.type) {%>
+                                                            <p>Type: <%= property.type %>
                                                             </p>
                                                             <% }%>
 
-                                                                <% if (hm.floors) {%>
-                                                                    <p>Floors: <%= hm.floors %>
+                                                                <% if (property.floors) {%>
+                                                                    <p>Floors: <%= property.floors %>
                                                                     </p>
                                                                     <% }%>
-                                                                        <% if (hm.status) {%>
-                                                                            <p>Status: <%= hm.status %>
+                                                                        <% if (property.status) {%>
+                                                                            <p>Status: <%= property.status %>
                                                                             </p>
                                                                             <% }%>
 
