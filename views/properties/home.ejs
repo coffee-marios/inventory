@@ -6,7 +6,7 @@
 </head>
 
 <body>
-    <%- include('partials/navbar') %>
+    <%- include('../partials/navbar') %>
 
         <h1>
             <%= property.title %>
@@ -24,7 +24,7 @@
             <div class="house-info">
 
                 <% if (property.city) {%>
-                    <p>Location: <%= property.city %>
+                    <p>City: <%= property.city %>
                     </p>
                     <% }%>
 
@@ -33,17 +33,18 @@
                             </p>
                             <% }%>
 
-                                <% if (property.internalArea) {%>
-                                    <p> Internal area: <%= property.internalArea %> m&#178;</p>
+                                <% if (property.internal_area) {%>
+                                    <p> Internal area: <%= property.internal_area %> m&#178;</p>
                                     </p>
                                     <% }%>
 
-                                        <% if (property.totalPlotArea) {%>
-                                            <p>Total plot area: <%= property.totalPlotArea %> m&#178;</p>
+                                        <% if (property.total_plot_area) {%>
+                                            <p>Total plot area: <%= property.total_plot_area %> m&#178;</p>
                                             <% }%>
 
                                                 <% if (property.price) {%>
-                                                    <p>Price: &#8364; <%= property.price %> m&#178;</p>
+                                                    <p>Price: &#8364; <%= property.price %>
+                                                    </p>
                                                     <% }%>
 
                                                         <% if (property.type) {%>
@@ -58,6 +59,10 @@
                                                                         <% if (property.status) {%>
                                                                             <p>Status: <%= property.status %>
                                                                             </p>
+                                                                            <a
+                                                                                href="/properties/<%= property.id %>/edit">
+                                                                                <button>Edit Property</button>
+                                                                            </a>
                                                                             <% }%>
 
 

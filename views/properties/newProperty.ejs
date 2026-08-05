@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+
+<body>
+    <%- include('../partials/navbar') %>
+
+        <div class="addForm">
+            <form action="/properties/newProperty" method="POST" enctype="multipart/form-data">
+
+                <div class="property">
+                    <label>Title</label>
+                    <input type="text" name="title" required>
+                </div>
+                <div class="property">
+                    <label>Image</label>
+                    <input type="file" name="image" accept="image/*">
+                </div>
+
+
+                <div class="property">
+                    <label>City</label>
+                    <input type="text" name="city" required>
+                </div>
+
+                <div class="property">
+                    <label>Price</label>
+                    <input type="number" name="price" required>
+                </div>
+
+                <div class="property">
+
+                    <label>Property Type</label>
+                    <select name="property_type">
+                        <option>House</option>
+                        <option>Apartment</option>
+                        <option>Villa</option>
+                        <option>Land</option>
+                        <option>Office</option>
+                    </select>
+                </div>
+
+                <div class="property">
+                    <label>Status</label>
+                    <select name="status">
+                        <option>For Sale</option>
+                        <option>For Rent</option>
+                        <option>Sold</option>
+                        <option>Reserved</option>
+                    </select>
+                </div>
+
+                <div class="property">
+                    <label>Description</label>
+                    <br><br>
+                    <textarea name="description"></textarea>
+
+                </div>
+
+                <div class="property">
+                    <label>Internal Area (m²)</label>
+                    <input type="number" step="0.01" name="internal_area">
+                </div>
+
+                <div class="property">
+                    <label>Plot Area (m²)</label>
+                    <input type="number" step="0.01" name="total_plot_area">
+                </div>
+                <div class="property">
+
+                    <label>Floors</label>
+                    <input type="number" name="floors">
+                </div>
+
+                <button type="submit">
+                    Add Property
+                </button>
+
+            </form>
+
+        </div>
+</body>
+
+</html>

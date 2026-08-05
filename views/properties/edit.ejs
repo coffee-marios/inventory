@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form action="/properties/<%= property.id %>/edit" method="POST">
+
+        <div class="edit">
+            <label>Title</label>
+            <input type="text" name="title" value="<%= property.title %>">
+        </div>
+
+
+        <div class="edit">
+            <label>City</label>
+            <input type="text" name="city" value="<%= property.city %>">
+        </div>
+
+        <div class="edit">
+            <label>Type</label>
+            <select name="property_type">
+                <option value="House" <%=property.property_type==="House" ? "selected" : "" %>>House</option>
+                <option value="Apartment" <%=property.property_type==="Apartment" ? "selected" : "" %>>Apartment
+                </option>
+                <option value="Villa" <%=property.property_type==="Villa" ? "selected" : "" %>>Villa</option>
+                <option value="Land" <%=property.property_type==="Land" ? "selected" : "" %>>Land</option>
+                <option value="Office" <%=property.property_type==="Office" ? "selected" : "" %>>Office</option>
+            </select>
+        </div>
+
+        <div class="edit">
+            <label>Floors</label>
+            <input type="number" name="floors" value="<%= property.floors %>">
+        </div>
+
+        <div class="edit">
+            <label>Description</label>
+            <input type="text" name="description" value="<%= property.description %>">
+        </div>
+
+        <div class="edit">
+            <label>Price</label>
+            <input type="number" name="price" value="<%= property.price %>">
+        </div>
+
+        <div class="edit">
+            <label>Internal Area</label>
+            <input type="number" name="internalArea" value="<%= property.internal_area %>">
+        </div>
+
+        <div class="edit">
+            <label>Total Area</label>
+            <input type="number" name="totalPlotArea" value="<%= property.total_plot_area %>">
+        </div>
+
+        <div class="edit">
+            <label>Status</label>
+            <select name="status">
+                <option value="For Sale" <%=property.status==="For Sale" ? "selected" : "" %>>For Sale
+                </option>
+                <option value="For Rent" <%=property.status==="For Rent" ? "selected" : "" %>>For Rent
+                </option>
+                <option value="Sold" <%=property.status==="Sold" ? "selected" : "" %>>Sold
+                </option>
+                <option value="Reserved" <%=property.status==="Reserved" ? "selected" : "" %>>Reserved
+                </option>
+            </select>
+        </div>
+
+
+        <button type="submit">
+            Save Changes
+        </button>
+
+    </form>
+</body>
+
+</html>

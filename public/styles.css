@@ -39,3 +39,15 @@ li {
     font-size: larger;
 
 }
+
+.addForm {
+    max-width: fit-content;
+    font-size: 1.5rem;
+    margin: 5rem;
+    padding: 2rem;
+    background-color: antiquewhite;
+}
+
+.property {
+    margin: 30px;
+}

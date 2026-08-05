@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <%- include('partials/navbar') %>
+  <%- include('../partials/navbar') %>
 
     <div>
       public | properties | table | marios
@@ -17,12 +17,12 @@
     </div>
     <div>
 
-      <% properties.forEach((property, index)=> { %>
+      <% properties.forEach((property)=> { %>
 
 
         <div class="house">
           <div>
-            <a href="/home/<%= index+1 %>">
+            <a href="/properties/home/<%= property.id %>">
               <img src="<%= property.image_url %>" alt="<%= property.alt_text %>">
             </a>
           </div>
@@ -32,6 +32,12 @@
             <p>Price: &#8364; <%= property.price %>
             </p>
           </div>
+          <form action="/properties/<%= property.id %>/delete" method="POST"
+            onsubmit="return confirm('Delete this property?');">
+            <button type="submit">
+              Delete Property
+            </button>
+          </form>
 
         </div>
         <br>

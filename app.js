@@ -11,11 +11,12 @@ app.set("view engine", "ejs");
 
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
+app.use(express.urlencoded({ extended: true }));
 
 const links = [
   { href: "", text: "Home" },
   { href: "about", text: "About" },
-  { href: "add", text: "Add" },
+  { href: "properties/newProperty", text: "New" },
 ];
 
 app.use((req, res, next) => {
