@@ -51,3 +51,28 @@ li {
 .property {
     margin: 30px;
 }
+
+.btn {
+    background-color: black;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border: 1px solid black;
+}
+
+.blockImage {
+    display: block;
+}
+
+.houseEdit {
+    width: 500px;
+}
+
+.white {
+    background-color: white;
+    padding-left: 30px;
+}
+
+form>div {
+    margin: 55px;
+}

@@ -26,6 +26,15 @@ app.use((req, res, next) => {
 
 app.use("/", indexRouter);
 
+// Error handler (must be last)
+app.use((err, req, res, next) => {
+  console.error(err);
+
+  res.status(500).render("error", {
+    message: "Something went wrong. Please try again later.",
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

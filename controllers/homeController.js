@@ -129,15 +129,21 @@ exports.editPropertyForm = async (req, res) => {
 
   const result = await db.query(
     `
-      SELECT *
-      FROM properties
-      WHERE id = $1
+    SELECT
+       p.*,
+       pi.image_url
+    FROM properties p
+    LEFT JOIN property_images pi
+       ON p.id = pi.property_id
+       AND pi.is_primary = TRUE
+    WHERE p.id = $1;
       `,
     [id]
   );
 
   res.render("properties/edit", {
     property: result.rows[0],
+    error: null,
   });
 };
 exports.updateProperty = async (req, res) => {
@@ -152,10 +158,23 @@ exports.updateProperty = async (req, res) => {
 
     status,
   } = req.body;
+  const img_url = req.body.image_url;
 
   const floors = req.body.floors ? Number(req.body.floors) : null;
 
   const price = req.body.price ? Number(req.body.price) : null;
+
+  // Validation happens here
+  if (price === null) {
+    const result = await db.query("SELECT * FROM properties WHERE id = $1", [
+      id,
+    ]);
+
+    return res.render("properties/edit", {
+      property: result.rows[0],
+      error: "Price is required",
+    });
+  }
 
   const internalArea = req.body.internalArea
     ? Number(req.body.internalArea)
@@ -190,9 +209,66 @@ exports.updateProperty = async (req, res) => {
       internalArea,
       totalPlotArea,
       status,
+
       id,
     ]
   );
 
   res.redirect(`/properties/home/${id}`);
+};
+
+exports.deleteImage = async (req, res) => {
+  const propertyId = req.params.id;
+
+  await db.query(
+    `
+      DELETE FROM property_images
+      WHERE property_id = $1
+      `,
+    [propertyId]
+  );
+
+  res.redirect(`/properties/${propertyId}/edit`);
+};
+
+exports.replaceImage = async (req, res) => {
+  const propertyId = req.params.id;
+
+  const imagePath = "/pictures/" + req.file.filename;
+
+  const existing = await db.query(
+    `
+    SELECT id
+    FROM property_images
+    WHERE property_id = $1
+    `,
+    [propertyId]
+  );
+
+  if (existing.rows.length > 0) {
+    await db.query(
+      `
+      UPDATE property_images
+      SET image_url = $1
+      WHERE property_id = $2
+      `,
+      [imagePath, propertyId]
+    );
+  } else {
+    await db.query(
+      `
+      INSERT INTO property_images
+      (
+        property_id,
+        image_url,
+        is_primary
+      )
+      VALUES
+      ($1, $2, TRUE)
+      `,
+      [propertyId, imagePath]
+    );
+  }
+
+  res.redirect(`/properties/${propertyId}/edit`);
 };

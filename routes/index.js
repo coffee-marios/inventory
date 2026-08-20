@@ -22,4 +22,12 @@ router.get("/properties/:id/edit", homeController.editPropertyForm);
 
 router.post("/properties/:id/edit", homeController.updateProperty);
 
+router.post(
+  "/properties/:id/replace-image",
+  upload.single("image"),
+  homeController.replaceImage
+);
+
+router.post("/properties/:id/delete-image", homeController.deleteImage);
+
 module.exports = router;

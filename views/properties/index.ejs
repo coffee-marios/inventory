@@ -23,7 +23,7 @@
         <div class="house">
           <div>
             <a href="/properties/home/<%= property.id %>">
-              <img src="<%= property.image_url %>" alt="<%= property.alt_text %>">
+              <img src="<%= property.image_url %>" alt="<%= property.title %>">
             </a>
           </div>
           <div class="house-info">
@@ -31,13 +31,18 @@
             </p>
             <p>Price: &#8364; <%= property.price %>
             </p>
+            <a class="btn" href="/properties/home/<%= property.id %>">More</a>
           </div>
-          <form action="/properties/<%= property.id %>/delete" method="POST"
+          <!-- <form action="/properties/<%= property.id %>/delete" method="POST"
             onsubmit="return confirm('Delete this property?');">
             <button type="submit">
               Delete Property
             </button>
-          </form>
+          </form> -->
+
+
+
+
 
         </div>
         <br>

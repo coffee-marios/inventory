@@ -4,80 +4,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
     <title>Document</title>
 </head>
 
 <body>
-    <form action="/properties/<%= property.id %>/edit" method="POST">
+    <%- include('../partials/navbar') %>
 
-        <div class="edit">
-            <label>Title</label>
-            <input type="text" name="title" value="<%= property.title %>">
+        <div class="white">
+            <div>
+                <img class="houseEdit" src="<%=property.image_url %>" alt="<%= property.title %>">
+
+            </div>
+
+            <h1>IMAGES</h1>
+            <h1>Replace</h1>
+            <form action="/properties/<%= property.id %>/replace-image" method="POST" enctype="multipart/form-data">
+
+                <input type="file" name="image" accept="image/*" required>
+
+                <button type="submit">
+                    Replace Image
+                </button>
+
+            </form>
+
+            <h3>Delete Image</h3>
+
+            <form action="/properties/<%= property.id %>/delete-image" method="POST">
+                <button type="submit" onclick="return confirm('Delete this image?');">
+                    Delete Image
+                </button>
+            </form>
+
+            <br>
+            <hr>
+            <h1>Details</h1>
+
+            <form action="/properties/<%= property.id %>/edit" method="POST">
+
+                <div class="edit">
+                    <label>Title</label>
+                    <input type="text" name="title" value="<%= property.title %>">
+                </div>
+
+
+
+
+                <div class="edit">
+                    <label>City</label>
+                    <input type="text" name="city" value="<%= property.city %>">
+                </div>
+
+                <div class="edit">
+                    <label>Type</label>
+                    <select name="property_type">
+                        <option value="House" <%=property.property_type==="House" ? "selected" : "" %>>House</option>
+                        <option value="Apartment" <%=property.property_type==="Apartment" ? "selected" : "" %>>Apartment
+                        </option>
+                        <option value="Villa" <%=property.property_type==="Villa" ? "selected" : "" %>>Villa</option>
+                        <option value="Land" <%=property.property_type==="Land" ? "selected" : "" %>>Land</option>
+                        <option value="Office" <%=property.property_type==="Office" ? "selected" : "" %>>Office</option>
+                    </select>
+                </div>
+
+                <div class="edit">
+                    <label>Floors</label>
+                    <input type="number" name="floors" value="<%= property.floors %>">
+                </div>
+
+                <div class="edit">
+                    <label>Description</label>
+                    <input type="text" name="description" value="<%= property.description %>">
+                </div>
+
+                <div class="edit">
+                    <label>Price</label>
+                    <input type="number" name="price" value="<%= property.price %>">
+
+                    <% if (error) {%>
+                        <p>
+                            <%=error%>
+                        </p>
+                        <%}%>
+                </div>
+
+
+                <div class="edit">
+                    <label>Internal Area</label>
+                    <input type="number" name="internalArea" value="<%= property.internal_area %>">
+                </div>
+
+                <div class="edit">
+                    <label>Total Area</label>
+                    <input type="number" name="totalPlotArea" value="<%= property.total_plot_area %>">
+                </div>
+
+                <div class="edit">
+                    <label>Status</label>
+                    <select name="status">
+                        <option value="For Sale" <%=property.status==="For Sale" ? "selected" : "" %>>For Sale
+                        </option>
+                        <option value="For Rent" <%=property.status==="For Rent" ? "selected" : "" %>>For Rent
+                        </option>
+                        <option value="Sold" <%=property.status==="Sold" ? "selected" : "" %>>Sold
+                        </option>
+                        <option value="Reserved" <%=property.status==="Reserved" ? "selected" : "" %>>Reserved
+                        </option>
+                    </select>
+                </div>
+
+
+                <button type="submit">
+                    Save
+                </button>
+
+            </form>
+
+            <br><br>
         </div>
 
-
-        <div class="edit">
-            <label>City</label>
-            <input type="text" name="city" value="<%= property.city %>">
-        </div>
-
-        <div class="edit">
-            <label>Type</label>
-            <select name="property_type">
-                <option value="House" <%=property.property_type==="House" ? "selected" : "" %>>House</option>
-                <option value="Apartment" <%=property.property_type==="Apartment" ? "selected" : "" %>>Apartment
-                </option>
-                <option value="Villa" <%=property.property_type==="Villa" ? "selected" : "" %>>Villa</option>
-                <option value="Land" <%=property.property_type==="Land" ? "selected" : "" %>>Land</option>
-                <option value="Office" <%=property.property_type==="Office" ? "selected" : "" %>>Office</option>
-            </select>
-        </div>
-
-        <div class="edit">
-            <label>Floors</label>
-            <input type="number" name="floors" value="<%= property.floors %>">
-        </div>
-
-        <div class="edit">
-            <label>Description</label>
-            <input type="text" name="description" value="<%= property.description %>">
-        </div>
-
-        <div class="edit">
-            <label>Price</label>
-            <input type="number" name="price" value="<%= property.price %>">
-        </div>
-
-        <div class="edit">
-            <label>Internal Area</label>
-            <input type="number" name="internalArea" value="<%= property.internal_area %>">
-        </div>
-
-        <div class="edit">
-            <label>Total Area</label>
-            <input type="number" name="totalPlotArea" value="<%= property.total_plot_area %>">
-        </div>
-
-        <div class="edit">
-            <label>Status</label>
-            <select name="status">
-                <option value="For Sale" <%=property.status==="For Sale" ? "selected" : "" %>>For Sale
-                </option>
-                <option value="For Rent" <%=property.status==="For Rent" ? "selected" : "" %>>For Rent
-                </option>
-                <option value="Sold" <%=property.status==="Sold" ? "selected" : "" %>>Sold
-                </option>
-                <option value="Reserved" <%=property.status==="Reserved" ? "selected" : "" %>>Reserved
-                </option>
-            </select>
-        </div>
-
-
-        <button type="submit">
-            Save Changes
-        </button>
-
-    </form>
 </body>
 
 </html>
