@@ -39,6 +39,10 @@ exports.createProperty = async (req, res) => {
     floors,
   } = req.body;
 
+  console.log("FILES:", req.files);
+
+  const toNull = (value) => (value === "" ? null : value);
+
   const propertyResult = await db.query(
     `
       INSERT INTO properties
@@ -66,28 +70,26 @@ exports.createProperty = async (req, res) => {
       property_type,
       status,
       description,
-      internal_area,
-      total_plot_area,
-      floors,
-    ]
+      toNull(internal_area),
+      toNull(total_plot_area),
+      toNull(floors),
+    ],
   );
   const propertyId = propertyResult.rows[0].id;
-  const imagePath = "/pictures/" + req.file.filename;
 
-  const imageResult = await db.query(
-    `
-    INSERT INTO property_images
-    (
-        property_id,
-        image_url,
-        is_primary
-    )
-    VALUES
-    ($1, $2, TRUE)
-    RETURNING id
-    `,
-    [propertyId, imagePath]
-  );
+  for (let i = 0; i < req.files.length; i++) {
+    const imagePath = "/pictures/" + req.files[i].filename;
+
+    await db.query(
+      `
+        INSERT INTO property_images
+            (property_id, image_url, is_primary)
+        VALUES
+            ($1, $2, $3)
+        `,
+      [propertyId, imagePath, i === 0],
+    );
+  }
 
   res.redirect(`home/${propertyResult.rows[0].id}`);
 };
@@ -98,23 +100,28 @@ exports.getAbout = (req, res) => {
 
 exports.home = async (req, res) => {
   const id = req.params.id;
-  const result = await db.query(
+  const propertyResult = await db.query(
     `
-      SELECT
-          p.*,
-          pi.image_url
-      FROM properties p
-      LEFT JOIN property_images pi
-          ON p.id = pi.property_id
-          AND pi.is_primary = TRUE
-      WHERE p.id = $1
-      `,
-    [id]
+    SELECT *
+    FROM properties
+    WHERE id = $1
+    `,
+    [id],
   );
-  console.log(result.rows);
+
+  const imagesResult = await db.query(
+    `
+    SELECT *
+    FROM property_images
+    WHERE property_id = $1
+    ORDER BY id
+    `,
+    [id],
+  );
 
   res.render("properties/home", {
-    property: result.rows[0],
+    property: propertyResult.rows[0],
+    images: imagesResult.rows,
   });
 };
 
@@ -125,24 +132,24 @@ exports.deleteProperty = async (req, res) => {
 };
 
 exports.editPropertyForm = async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
 
-  const result = await db.query(
-    `
-    SELECT
-       p.*,
-       pi.image_url
-    FROM properties p
-    LEFT JOIN property_images pi
-       ON p.id = pi.property_id
-       AND pi.is_primary = TRUE
-    WHERE p.id = $1;
-      `,
-    [id]
+  const propertyResults = await db.query(
+    "SELECT * FROM properties WHERE id = $1",
+    [id],
   );
 
+  const imageResults = await db.query(
+    "SELECT * FROM property_images WHERE property_id=$1",
+    [id],
+  );
+
+  const property = propertyResults.rows[0];
+  const images = imageResults.rows;
+
   res.render("properties/edit", {
-    property: result.rows[0],
+    property,
+    images,
     error: null,
   });
 };
@@ -158,7 +165,7 @@ exports.updateProperty = async (req, res) => {
 
     status,
   } = req.body;
-  const img_url = req.body.image_url;
+  // const img_url = req.body.image_url;
 
   const floors = req.body.floors ? Number(req.body.floors) : null;
 
@@ -169,6 +176,18 @@ exports.updateProperty = async (req, res) => {
     const result = await db.query("SELECT * FROM properties WHERE id = $1", [
       id,
     ]);
+
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        await db.query(
+          `
+            INSERT INTO property_images (property_id, image_url)
+            VALUES ($1, $2)
+            `,
+          [id, `/pictures/${file.filename}`],
+        );
+      }
+    }
 
     return res.render("properties/edit", {
       property: result.rows[0],
@@ -183,6 +202,18 @@ exports.updateProperty = async (req, res) => {
   const totalPlotArea = req.body.totalPlotArea
     ? Number(req.body.totalPlotArea)
     : null;
+
+  if (req.files && req.files.length > 0) {
+    for (const file of req.files) {
+      await db.query(
+        `
+            INSERT INTO property_images (property_id, image_url)
+            VALUES ($1, $2)
+            `,
+        [id, `/pictures/${file.filename}`],
+      );
+    }
+  }
 
   await db.query(
     `
@@ -211,24 +242,24 @@ exports.updateProperty = async (req, res) => {
       status,
 
       id,
-    ]
+    ],
   );
 
   res.redirect(`/properties/home/${id}`);
 };
 
 exports.deleteImage = async (req, res) => {
-  const propertyId = req.params.id;
+  const { id, imageId } = req.params;
 
   await db.query(
     `
       DELETE FROM property_images
-      WHERE property_id = $1
+      WHERE id = $1 AND property_id = $2
       `,
-    [propertyId]
+    [imageId, id],
   );
 
-  res.redirect(`/properties/${propertyId}/edit`);
+  res.redirect(`/properties/${id}/edit`);
 };
 
 exports.replaceImage = async (req, res) => {
@@ -242,7 +273,7 @@ exports.replaceImage = async (req, res) => {
     FROM property_images
     WHERE property_id = $1
     `,
-    [propertyId]
+    [propertyId],
   );
 
   if (existing.rows.length > 0) {
@@ -252,7 +283,7 @@ exports.replaceImage = async (req, res) => {
       SET image_url = $1
       WHERE property_id = $2
       `,
-      [imagePath, propertyId]
+      [imagePath, propertyId],
     );
   } else {
     await db.query(
@@ -266,9 +297,41 @@ exports.replaceImage = async (req, res) => {
       VALUES
       ($1, $2, TRUE)
       `,
-      [propertyId, imagePath]
+      [propertyId, imagePath],
     );
   }
 
   res.redirect(`/properties/${propertyId}/edit`);
+};
+
+exports.addPropertyImages = async (req, res) => {
+  const { id } = req.params;
+
+  for (const file of req.files) {
+    const imagePath = "/pictures/" + file.filename;
+
+    await db.query(
+      `
+          INSERT INTO property_images
+          (property_id, image_url)
+          VALUES ($1, $2)
+          `,
+      [id, imagePath],
+    );
+  }
+
+  res.redirect(`/properties/${id}/edit`);
+};
+exports.deletePropertyImage = async (req, res) => {
+  const { id, imageId } = req.params;
+
+  await db.query(
+    `
+      DELETE FROM property_images
+      WHERE id = $1 AND property_id = $2
+      `,
+    [imageId, id],
+  );
+
+  res.redirect(`/properties/${id}/edit`);
 };

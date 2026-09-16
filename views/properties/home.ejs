@@ -15,14 +15,20 @@
 
 
             <div>
-
-                <a class="blockImage" href="/">
-                    <img src="<%=property.image_url %>" alt="<%= property.alt_text %>">
-                </a>
-
-
+                <br>
+                <% images.forEach(image=> { %>
+                    <%= image.image_url %>
+                        <% }) %>
+                            <hr>
+                            <br>
+                            <% images.forEach(image=> { %>
+                                <img src="<%= image.image_url %>" alt="<%= property.title %>">
+                                <% }) %>
 
             </div>
+            <br>
+            <hr>
+            <br>
             <div class="house-info">
 
                 <% if (property.city) {%>

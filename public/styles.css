@@ -76,3 +76,16 @@ li {
 form>div {
     margin: 55px;
 }
+
+
+.property-images {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    padding: 1rem;
+}
+
+.property-image>img {
+    max-width: 5rem;
+    min-width: 3rem;
+}
